@@ -20,12 +20,22 @@ client.connect().then(() => {
 app.get("/products", async (req, res) => {
     const db = client.db("products");
     const collection = db.collection("products");
-    const rand = Math.random() * (10 - 5) + 5;
     const result = await collection.find({}).limit(10).toArray();
 
     res.send(result);
 });
 
+
+app.get("/product/:id", async(req, res) => {
+    const { id } = req.params; 
+
+    const db = client.db("products"); 
+    const collection = db.collection("products"); 
+    
+    const result = await collection.find({"_id": ObjectId(id)}).toArray();
+
+    res.send(result);
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
