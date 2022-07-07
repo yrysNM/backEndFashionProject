@@ -17,6 +17,15 @@ client.connect().then(() => {
     console.log(e);
 });
 
+
+app.get("/allProducts",async(req, res) => {
+    const db = client.db("products"); 
+    const collection = db.collection("products");
+    const result = await collection.find({}).toArray();
+
+    res.send(result);
+})
+
 app.get("/products", async (req, res) => {
     const db = client.db("products");
     const collection = db.collection("products");
