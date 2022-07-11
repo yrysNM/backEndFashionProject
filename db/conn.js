@@ -12,7 +12,8 @@ module.exports = {
     connectToServer:  function(callback) {
         client.connect(function(err, db) {
             if(db) {
-                _db =db.db("products"); 
+                _db = db.db("products"); 
+                _dbelFashion = db.db("elFashion");
                 console.log("Successfully, connected to MongoDB");
             }
             return callback(err);
@@ -22,4 +23,7 @@ module.exports = {
     getDb: function() {
         return _db;
     },
+    getDbElFashion: () => {
+        return _dbelFashion;
+    }
 };
