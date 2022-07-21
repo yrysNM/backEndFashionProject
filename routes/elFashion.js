@@ -26,17 +26,17 @@ conn.once("open", () => {
 
 // media routes
 elFashionRoutes.route("/file/:filename").get(async (req, res) => {
-  try {
-    const file = await gfs.files.findOne({ filename: req.params.filename });
-    console.log(file)
-    const readStream = gridfsBucket.openDownloadStream(file._id);
-    readStream.pipe(res);
-    res.send(file);
-    // } catch (error) {
-    //   console.log(error);
-    //   res.send("not found :(");
-    // }
-  });
+  // try {
+  const file = await gfs.files.findOne({ filename: req.params.filename });
+  console.log(file)
+  const readStream = gridfsBucket.openDownloadStream(file._id);
+  readStream.pipe(res);
+  res.send(file);
+  // } catch (error) {
+  //   console.log(error);
+  //   res.send("not found :(");
+  // }
+});
 
 elFashionRoutes.route("/uploadImg").post(upload.single("image"), async (req, res) => {
 
