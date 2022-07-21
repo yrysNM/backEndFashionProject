@@ -4,7 +4,7 @@
   "description": "Starter project for the MongoDB Node.js Driver Quick Start.",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "nodemon server.js"
   },
   "repository": {
     "type": "git",
