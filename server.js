@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dbo = require("./db/conn");
+const axios = require("axios");
 require("dotenv").config({ path: "./config.env" });
 
 const app = express();
@@ -15,3 +16,7 @@ app.listen(port, () => {
   });
   console.log(`Server is running on port ${port}`);
 });
+
+
+
+
