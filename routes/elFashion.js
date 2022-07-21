@@ -24,72 +24,29 @@ conn.once("open", () => {
 });
 
 
-// const storage = multer.diskStorage({
-//   destination: 'routes/uploads',
-//   filename: (req, file, cb) => {
-//     cb(null, fileOriginalName = file.originalname)
-//   }
-// });
-
-// const upload = multer({ storage: storage });
-
-
 // media routes
 elFashionRoutes.route("/file/:filename").get(async (req, res) => {
-
-  let userImg = { img: req.params };
-  const db_connect = dbo.getDbElFashion("elFashion");
-
-  // console.log(gfs.files.filename, req.params.filename);
-  const file = await gfs.files.findOne({ filename: req.params.filename });
-  console.log(file)
-  const readStream = gridfsBucket.openDownloadStream(file._id);
-  readStream.pipe(res);
-  // } catch (error) {
-  //   console.log(error);
-  //   res.send("not found :(");
-  // }
+  try {
+    const file = await gfs.files.findOne({ filename: req.params.filename });
+    const readStream = gridfsBucket.openDownloadStream(file._id);
+    readStream.pipe(res);
+    res.send(file);
+  } catch (error) {
+    console.log(error);
+    res.send("not found :(");
+  }
 });
 
 elFashionRoutes.route("/uploadImg").post(upload.single("image"), async (req, res) => {
-  const { title, name } = req.body;
-  // var data;
-  // const db_connect = dbo.getDbElFashion("elFashion");
-  // const collection = db_connect.collection("uploadImgs");
+
+
   if (req.file === undefined) return res.send("you must select a file.");
-  const imgUrl = `http://localhost:5000/file/${req.file.filename}`;
-
-  // // console.log(req.file);
-  // const response = await collection.insertOne(data = {
-  //   title: req.body.title,
-  //   img: imgUrl,
-  // });
+  const imgUrl = `https://fast-hamlet-56846.herokuapp.com/file/${req.file.filename}`;
 
 
-  const result = {
-    // _id: response.insertedId,
-    title,
-    img: imgUrl,
-
-  }
-
-  // res.json(result);
   res.send(imgUrl);
 });
 
-
-elFashionRoutes.route("/uploadImg").get((req, res) => {
-  const db_connect = dbo.getDbElFashion("elFashion");
-  const collection = db_connect.collection("uploadedImages");
-  collection.find({}, (err, items) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("An error occurred", err);
-    } else {
-      res.json(items);
-    }
-  });
-})
 
 
 elFashionRoutes.route("/listProviders").get(function (req, res) {
