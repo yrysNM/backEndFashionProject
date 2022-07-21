@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dbo = require("./db/conn");
-const axios = require("axios");
+
 require("dotenv").config({ path: "./config.env" });
 
 const app = express();
@@ -10,6 +10,11 @@ app.use(cors());
 app.use(express.json());
 app.use(require("./routes/products"));
 app.use(require("./routes/elFashion"));
+
+app.get("/", (req, res) => {
+  res.send("Hello World");
+})
+
 app.listen(port, () => {
   dbo.connectToServer(function (err) {
     if (err) console.error(err);
