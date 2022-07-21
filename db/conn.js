@@ -1,4 +1,5 @@
 const { MongoClient } = require("mongodb");
+const mongoose = require("mongoose");
 require("dotenv").config({ path: "./config.env" });
 const Db = process.env.ATLAS_URI;
 const client = new MongoClient(Db, {
@@ -25,5 +26,18 @@ module.exports = {
     },
     getDbElFashion: () => {
         return _dbelFashion;
+    },
+    connectMongoose: async () => {
+        try {
+            const connectionParams = {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+            };
+            await mongoose.connect(process.env.DB, connectionParams);
+            console.log("connected to database");
+        } catch (error) {
+            console.log(error);
+            console.log("could not connect to database");
+        }
     }
 };

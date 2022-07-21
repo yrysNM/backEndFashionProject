@@ -3,44 +3,93 @@ const dbo = require("../db/conn");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+const mongoose = require("mongoose");
+const Grid = require("gridfs-stream");
 const ObjectId = require("mongodb").ObjectId;
+const upload = require("../middleware/upload");
 
 const elFashionRoutes = express.Router();
+var fileOriginalName;
+var gfs;
 
+dbo.connectMongoose();
 
-const storage = multer.diskStorage({
-  destination: 'routes/uploads',
-  filename: (req, file, cb) => {
-    cb(null, file.originalname)
-  }
+const conn = mongoose.connection;
+conn.once("open", () => {
+  gridfsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: 'uploadImgs'
+  });
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection("uploadImgs");
 });
 
 
-const upload = multer({ storage: storage });
+// const storage = multer.diskStorage({
+//   destination: 'routes/uploads',
+//   filename: (req, file, cb) => {
+//     cb(null, fileOriginalName = file.originalname)
+//   }
+// });
 
-elFashionRoutes.route("/catalogs").post(upload.single("image"), async (req, res) => {
+// const upload = multer({ storage: storage });
+
+
+// media routes
+elFashionRoutes.route("/file/:filename").get(async (req, res) => {
+
+  let userImg = { img: req.params };
   const db_connect = dbo.getDbElFashion("elFashion");
-  const collection = db_connect.collection("uploadedImages");
 
-  // console.log(req.file);
-  const response = await collection.insertOne({
-    title: req.body.title,
-    img: {
-      data: fs.readFileSync(path.join(__dirname + "/uploads/" + req.file.filename)),
-      contentType: req.body.type,
+  // console.log(gfs.files.filename, req.params.filename);
+  const file = await gfs.files.findOne({ filename: req.params.filename });
+  console.log(file)
+  const readStream = gridfsBucket.openDownloadStream(file._id);
+  readStream.pipe(res);
+  // } catch (error) {
+  //   console.log(error);
+  //   res.send("not found :(");
+  // }
+});
 
-    }
-  });
+elFashionRoutes.route("/uploadImg").post(upload.single("image"), async (req, res) => {
+  const { title, name } = req.body;
+  // var data;
+  // const db_connect = dbo.getDbElFashion("elFashion");
+  // const collection = db_connect.collection("uploadImgs");
+  if (req.file === undefined) return res.send("you must select a file.");
+  const imgUrl = `http://localhost:5000/file/${req.file.filename}`;
+
+  // // console.log(req.file);
+  // const response = await collection.insertOne(data = {
+  //   title: req.body.title,
+  //   img: imgUrl,
+  // });
+
 
   const result = {
-    _id: response.insertedId,
-    title: "test3",
-    img: response.img,
-  };
-  console.log(result)
-  res.json(result);
+    // _id: response.insertedId,
+    title,
+    img: imgUrl,
+
+  }
+
+  // res.json(result);
+  res.send(imgUrl);
 });
 
+
+elFashionRoutes.route("/uploadImg").get((req, res) => {
+  const db_connect = dbo.getDbElFashion("elFashion");
+  const collection = db_connect.collection("uploadedImages");
+  collection.find({}, (err, items) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("An error occurred", err);
+    } else {
+      res.json(items);
+    }
+  });
+})
 
 
 elFashionRoutes.route("/listProviders").get(function (req, res) {
