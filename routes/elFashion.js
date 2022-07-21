@@ -44,7 +44,7 @@ elFashionRoutes.route("/uploadImg").post(upload.single("image"), async (req, res
   if (req.file === undefined) return res.send("you must select a file.");
   const imgUrl = `https://fast-hamlet-56846.herokuapp.com/file/${req.file.filename}`;
 
-  conssole.log(imgUrl)
+  console.log(imgUrl)
   res.send(imgUrl);
 });
 
