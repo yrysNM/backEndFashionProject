@@ -27,9 +27,9 @@ conn.once("open", () => {
 // media routes
 elFashionRoutes.route("/file/:filename").get(async (req, res) => {
   // try {
-  console.log(gfs);
-  // const file = await gfs.files.findOne({ filename: req.params.filename });
-
+  // console.log(gfs);
+  const file = await gfs.files.findOne({ filename: req.params.filename });
+  console.log(file)
   // const readStream = gridfsBucket.openDownloadStream(file._id);
   // readStream.pipe(res);
   // res.send(file);
