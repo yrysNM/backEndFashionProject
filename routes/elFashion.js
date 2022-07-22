@@ -104,8 +104,8 @@ elFashionRoutes.route("/recognize").post(async (req, res) => {
 
       return classifiedImage;
     }).catch((err) => console.log("Image classification error", err));
-  console.log(metaDataImg);
-  // res.json(metaDataImg);
+  // console.log(metaDataImg);
+  res.json(metaDataImg);
 });
 
 elFashionRoutes.route("/uploadImg").post(upload.single("image"), async (req, res) => {
