@@ -7,8 +7,7 @@ const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
 const ObjectId = require("mongodb").ObjectId;
 const upload = require("../middleware/upload");
-const cors = require("cors");
-express().use(cors());
+
 const elFashionRoutes = express.Router();
 var fileOriginalName;
 var gfs;
@@ -41,7 +40,7 @@ elFashionRoutes.route("/file/:filename").get(async (req, res) => {
   }
 });
 
-elFashionRoutes.route("/recognize").post(cors(), async (req, res) => {
+elFashionRoutes.route("/recognize").post(async (req, res) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -56,6 +55,8 @@ elFashionRoutes.route("/recognize").post(cors(), async (req, res) => {
   const metaDataImg = await fetch("https://virecognition.visenze.com/v1/image/recognize", {
     method: "POST",
     headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
       Authorization: "Basic " + _apikey,
     },
     body: formData,
