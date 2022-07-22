@@ -7,7 +7,8 @@ const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
 const ObjectId = require("mongodb").ObjectId;
 const upload = require("../middleware/upload");
-
+const cors = require("cors");
+express().use(cors());
 const elFashionRoutes = express.Router();
 var fileOriginalName;
 var gfs;
@@ -40,8 +41,8 @@ elFashionRoutes.route("/file/:filename").get(async (req, res) => {
   }
 });
 
-elFashionRoutes.route("/recognize").post(async (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'example.com');
+elFashionRoutes.route("/recognize").get(cors(), async (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
 
@@ -102,8 +103,8 @@ elFashionRoutes.route("/recognize").post(async (req, res) => {
 
       return classifiedImage;
     }).catch((err) => console.log("Image classification error", err));
-
-  res.json(metaDataImg);
+  console.log(metaDataImg);
+  // res.json(metaDataImg);
 });
 
 elFashionRoutes.route("/uploadImg").post(upload.single("image"), async (req, res) => {
