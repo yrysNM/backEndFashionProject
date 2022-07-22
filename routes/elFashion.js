@@ -30,7 +30,7 @@ elFashionRoutes.route("/file/:filename").get(async (req, res) => {
   // console.log(gfs);
   const file = await gfs.files.findOne({ filename: req.params.filename });
   // console.log(file)
-  const readStream = gridfsBucket.openDownloadStream(file.filename);
+  const readStream = gridfsBucket.openDownloadStream(file._id);
   readStream.pipe(res);
   // res.send(file);
   // } catch (error) {
