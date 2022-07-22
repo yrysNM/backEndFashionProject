@@ -47,16 +47,22 @@ elFashionRoutes.route("/recognize").post(async (req, res) => {
 
   const { imageURL, objectID, scoreLimit } = req.body;
 
+  const metaDataImg = await getImageLabels(imageURL, objectID, scoreLimit);
+
+
+  // console.log(metaDataImg);
+  res.json(metaDataImg);
+});
+
+const getImageLabels = async (imageURL, objectID, scoreLimit) => {
   const formData = new FormData();
   formData.append("limit", "30");
   formData.append("tag_group", "fashion_attributes");
   formData.append("url", imageURL);
 
-  const metaDataImg = await fetch("https://virecognition.visenze.com/v1/image/recognize", {
+  return await fetch("https://virecognition.visenze.com/v1/image/recognize", {
     method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
       Authorization: "Basic " + _apikey,
     },
     body: formData,
@@ -104,9 +110,9 @@ elFashionRoutes.route("/recognize").post(async (req, res) => {
 
       return classifiedImage;
     }).catch((err) => console.log("Image classification error", err));
-  // console.log(metaDataImg);
-  res.json(metaDataImg);
-});
+
+}
+
 
 elFashionRoutes.route("/uploadImg").post(upload.single("image"), async (req, res) => {
 
