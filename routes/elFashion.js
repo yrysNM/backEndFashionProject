@@ -46,12 +46,12 @@ elFashionRoutes.route("/recognize").post(async (req, res) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
 
   const { imageURL, objectID, scoreLimit } = req.body;
-
-  const metaDataImg = await getImageLabels(imageURL, objectID, scoreLimit);
+  console.log(imageURL)
+  // const metaDataImg = await getImageLabels(imageURL, objectID, scoreLimit);
 
 
   // console.log(metaDataImg);
-  res.json(metaDataImg);
+  // res.send(metaDataImg);
 });
 
 const getImageLabels = async (imageURL, objectID, scoreLimit) => {
