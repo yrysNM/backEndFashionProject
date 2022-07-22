@@ -40,7 +40,7 @@ elFashionRoutes.route("/file/:filename").get(async (req, res) => {
   }
 });
 
-elFashion.route("/recognize").post(async (req, res) => {
+elFashionRoutes.route("/recognize").post(async (req, res) => {
   res.header('Access-Control-Allow-Origin', 'example.com');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
