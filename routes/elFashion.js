@@ -8,7 +8,7 @@ const Grid = require("gridfs-stream");
 const ObjectId = require("mongodb").ObjectId;
 const upload = require("../middleware/upload");
 const FormData = require("form-data");
-const fetch = require("node-fetch");
+const fetch = require("cross-fetch");
 
 const elFashionRoutes = express.Router();
 var fileOriginalName;
