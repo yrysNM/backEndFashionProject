@@ -1,19 +1,16 @@
 const express = require("express");
 const dbo = require("../db/conn");
-const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
 const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
 const ObjectId = require("mongodb").ObjectId;
 const upload = require("../middleware/upload");
 const FormData = require("form-data");
 const fetch = require("cross-fetch");
+require("dotenv").config({ path: "./config.env" });
 
 const elFashionRoutes = express.Router();
-var fileOriginalName;
 var gfs;
-var _apikey = "MDQ4N2ZjZjM2OGMyZjI0YzU2NzJhZDIzNjYwOTljMzI6ZjI5MGQ0ZjViOWEwY2FiNGRiODRiNjY0YzBmMmI1Yzk";
+var _apikey = process.env._apikey;
 
 dbo.connectMongoose();
 
