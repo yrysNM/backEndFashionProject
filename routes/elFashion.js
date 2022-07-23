@@ -13,7 +13,7 @@ const fetch = require("cross-fetch");
 const elFashionRoutes = express.Router();
 var fileOriginalName;
 var gfs;
-var _apikey = "MDkyMGIxOWYxNGFlMWE1ZjBhODM2MTE2OWU2YTQ3Y2M6YjAyMTFmOTBjN2EyZTM0NDc3MDExMTQ4NmM2NWJkMDg";
+var _apikey = "MDQ4N2ZjZjM2OGMyZjI0YzU2NzJhZDIzNjYwOTljMzI6ZjI5MGQ0ZjViOWEwY2FiNGRiODRiNjY0YzBmMmI1Yzk";
 
 dbo.connectMongoose();
 
@@ -56,7 +56,7 @@ elFashionRoutes.route("/recognize").post(async (req, res) => {
 const getImageLabels = async (imageURL, objectID, scoreLimit) => {
 
   const formData = new FormData();
-  formData.append("limit", "30");
+  formData.append("limit", "5");
   formData.append("tag_group", "fashion_attributes");
   formData.append("url", imageURL);
 
