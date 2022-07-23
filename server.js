@@ -7,6 +7,7 @@ require("dotenv").config({ path: "./config.env" });
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(cors());
+app.options('*', cors()) // include before other routes
 app.use(express.json());
 app.use(require("./routes/products"));
 app.use(require("./routes/elFashion"));
