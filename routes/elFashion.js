@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
 const ObjectId = require("mongodb").ObjectId;
 const upload = require("../middleware/upload");
-
+const FormData = require("form-data");
 const elFashionRoutes = express.Router();
 var fileOriginalName;
 var gfs;
@@ -55,6 +55,7 @@ elFashionRoutes.route("/recognize").post(async (req, res) => {
 });
 
 const getImageLabels = async (imageURL, objectID, scoreLimit) => {
+
   const formData = new FormData();
   formData.append("limit", "30");
   formData.append("tag_group", "fashion_attributes");
