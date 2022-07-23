@@ -10,7 +10,6 @@ require("dotenv").config({ path: "./config.env" });
 
 const elFashionRoutes = express.Router();
 var gfs;
-var _apikey = process.env._apikey;
 
 dbo.connectMongoose();
 
@@ -60,7 +59,7 @@ const getImageLabels = async (imageURL, objectID, scoreLimit) => {
   return await fetch("https://virecognition.visenze.com/v1/image/recognize", {
     method: "POST",
     headers: {
-      Authorization: "Basic " + _apikey,
+      Authorization: "Basic " + process.env.APIKEY,
     },
     body: formData,
   })
