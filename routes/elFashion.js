@@ -6,11 +6,10 @@ const ObjectId = require("mongodb").ObjectId;
 const upload = require("../middleware/upload");
 const FormData = require("form-data");
 const fetch = require("cross-fetch");
-require("dotenv").config({ path: "./config.env" });
 
 const elFashionRoutes = express.Router();
 var gfs;
-
+var _APIKEY = "MDQ4N2ZjZjM2OGMyZjI0YzU2NzJhZDIzNjYwOTljMzI6ZjI5MGQ0ZjViOWEwY2FiNGRiODRiNjY0YzBmMmI1Yzk";
 dbo.connectMongoose();
 
 const conn = mongoose.connection;
@@ -59,7 +58,7 @@ const getImageLabels = async (imageURL, objectID, scoreLimit) => {
   return await fetch("https://virecognition.visenze.com/v1/image/recognize", {
     method: "POST",
     headers: {
-      Authorization: "Basic " + process.env.APIKEY,
+      Authorization: "Basic " + _APIKEY,
     },
     body: formData,
   })
