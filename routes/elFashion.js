@@ -4,9 +4,11 @@ const mongoose = require("mongoose");
 const Grid = require("gridfs-stream");
 const ObjectId = require("mongodb").ObjectId;
 const upload = require("../middleware/upload");
+const auth = require("../middleware/auth");
 const FormData = require("form-data");
 const fetch = require("cross-fetch");
-
+const controller = require("../controller/authController");
+const { check } = require("express-validator");
 const elFashionRoutes = express.Router();
 var gfs;
 var _APIKEY = "MDQ4N2ZjZjM2OGMyZjI0YzU2NzJhZDIzNjYwOTljMzI6ZjI5MGQ0ZjViOWEwY2FiNGRiODRiNjY0YzBmMmI1Yzk";
@@ -20,6 +22,18 @@ conn.once("open", () => {
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection("uploadImgs");
 });
+
+
+elFashionRoutes.route("/auth/registration").post([
+  check("username", "username shoould not empty").notEmpty(),
+  check("password", "Password length mini 4 max 10").isLength({ min: 4, max: 10 }),
+  check("email").isEmail().normalizeEmail(),
+  check("addresses.*.postalCode").isPostalCode(),
+  check("phone", "phone shoydn;t empty").notEmpty(),
+
+], controller.registration);
+elFashionRoutes.route("/auth/login").post(controller.login);
+elFashionRoutes.route("/auth/users").get(auth, controller.getUsers);
 
 
 // media routes
