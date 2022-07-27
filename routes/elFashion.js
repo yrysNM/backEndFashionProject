@@ -11,7 +11,7 @@ const controller = require("../controller/authController");
 const { check } = require("express-validator");
 const elFashionRoutes = express.Router();
 var gfs;
-var _APIKEY = "MDQ4N2ZjZjM2OGMyZjI0YzU2NzJhZDIzNjYwOTljMzI6ZjI5MGQ0ZjViOWEwY2FiNGRiODRiNjY0YzBmMmI1Yzk";
+var _APIKEY = "MzU4N2Q0YzAxMjM5NmVjNDQzNTA3NzBmMWZhOTg4ODM6NWUwYjA4MjkxNzlmMjQ5ZmJlN2E1MzJmMjRlNTUzOTM";
 dbo.connectMongoose();
 
 const conn = mongoose.connection;
