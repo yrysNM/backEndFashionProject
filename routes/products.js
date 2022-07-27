@@ -3,24 +3,61 @@ const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
 const productRoutes = express.Router();
-productRoutes.route("/products").get(function (req, res) {
-    let db_connect = dbo.getDb("products");
-    db_connect
-        .collection("products")
-        .find({ type: "T-SHIRT" })
-        .limit(10)
-        .toArray((err, result) => {
-            if (err) throw err;
-            // console.log(result);
-            res.json(result);
-        });
+
+
+productRoutes.route("/productsOffsetTShirt/:offset").get(async function (req, res) {
+    const { offset } = req.params;
+
+    const db_connect = dbo.getDb("products");
+    const collection = db_connect.collection("products");
+    await collection.find({ type: "T-SHIRT" }).skip(parseInt(offset)).limit(parseInt(offset)).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    })
 });
 
-productRoutes.route("/productsTShirt").get((req, res) => {
+productRoutes.route("/productsOffsetTShirt/:offset").get(async function (req, res) {
+    const { offset } = req.params;
+
+    const db_connect = dbo.getDb("products");
+    const collection = db_connect.collection("products");
+    await collection.find({ type: "T-SHIRT" }).skip(parseInt(offset)).limit(parseInt(offset)).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    })
+});
+
+productRoutes.route("/productsOffsetMUG/:offset").get(async function (req, res) {
+    const { offset } = req.params;
+
+    const db_connect = dbo.getDb("products");
+    const collection = db_connect.collection("products");
+    await collection.find({ type: "MUG" }).skip(parseInt(offset)).limit(parseInt(offset)).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    })
+});
+
+productRoutes.route("/productsOffsetShoes/:offset").get(async function (req, res) {
+    const { offset } = req.params;
+
+    const db_connect = dbo.getDb("products");
+    const collection = db_connect.collection("products");
+    await collection.find({ type: "SHOES" }).skip(offset).limit(offset).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    })
+});
+
+productRoutes.route("/productsEmbro").get((req, res) => {
 
 
     let db__connect = dbo.getDb("products");
-    db__connect.collection("products").find({ type: "T-SHIRT" }).limit(4).toArray((err, result) => {
+    db__connect.collection("products").find({ type: "EMBROIDERY" }).limit(4).toArray((err, result) => {
         if (err) throw err;
 
         res.json(result);
