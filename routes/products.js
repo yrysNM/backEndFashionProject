@@ -25,6 +25,110 @@ productRoutes.route("/productsOffsetTShirt/:offset").get(async function (req, re
 
 });
 
+productRoutes.route("/productsFilterWomens").get(async (req, res) => {
+    const db_connect = dbo.getDb("products");
+    const collection = db_connect.collection("products");
+
+    collection.find({ $text: { $search: "Women's" } }).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+
+    });
+});
+
+productRoutes.route("/productsFilterMens").get(async (req, res) => {
+    const db_connect = dbo.getDb("products");
+    const collection = db_connect.collection("products");
+
+    collection.find({ $text: { $search: "Men's" } }).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+
+    });
+});
+
+productRoutes.route("/productsFilterToddler").get(async (req, res) => {
+    const db_connect = dbo.getDb("products");
+    const collection = db_connect.collection("products");
+
+    collection.find({ $text: { $search: "Toddler" } }).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+
+    });
+});
+
+productRoutes.route("/productsFilterShoes").get((req, res) => {
+
+    let db__connect = dbo.getDb("products");
+    db__connect.collection("products").find({ type: "SHOES" }).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    });
+});
+
+/**
+ * @param {FILTER requests accessories}
+ */
+productRoutes.route("/productsFilterJewelry").get((req, res) => {
+
+    let db__connect = dbo.getDb("products");
+    db__connect.collection("products").find({ type: "JEWELRY" }).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    });
+});
+
+productRoutes.route("/productsFilterPhoneCase").get((req, res) => {
+
+    let db__connect = dbo.getDb("products");
+    db__connect.collection("products").find({ type: "PHONE-CASE" }).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    });
+});
+
+/**
+ * @param {other}
+ */
+productRoutes.route("/productsFilterEmbroidery").get((req, res) => {
+
+    let db__connect = dbo.getDb("products");
+    db__connect.collection("products").find({ type: "EMBROIDERY" }).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    });
+});
+
+productRoutes.route("/productsFilterSublimation").get((req, res) => {
+
+    let db__connect = dbo.getDb("products");
+    db__connect.collection("products").find({ type: "SUBLIMATION" }).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    });
+});
+
+productRoutes.route("/productsFilterMug").get((req, res) => {
+
+    let db__connect = dbo.getDb("products");
+    db__connect.collection("products").find({ type: "MUG" }).toArray((err, result) => {
+        if (err) throw err;
+
+        res.json(result);
+    });
+});
+
+
+
 productRoutes.route("/productsOffsetEmbro/:offset").get(async function (req, res) {
     const { offset } = req.params;
 
@@ -89,11 +193,11 @@ productRoutes.route("/productsOffsetShoes/:offset").get(async function (req, res
     });
 });
 
-productRoutes.route("/productsEmbro").get((req, res) => {
+productRoutes.route("/productsTShirt").get((req, res) => {
 
 
     let db__connect = dbo.getDb("products");
-    db__connect.collection("products").find({ type: "EMBROIDERY" }).limit(4).toArray((err, result) => {
+    db__connect.collection("products").find({ type: "T-SHIRT" }).limit(4).toArray((err, result) => {
         if (err) throw err;
 
         res.json(result);
@@ -157,8 +261,13 @@ productRoutes.route("/allProducts").get((req, res) => {
         .find({})
         .toArray((err, result) => {
             if (err) throw err;
-            res.json(result);
+
+            db_connect.insert({
+                "title": result.title,
+                "tags": ["mongodb", "titleText"]
+            });
         });
+
 });
 
 module.exports = productRoutes;
