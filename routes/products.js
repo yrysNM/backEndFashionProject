@@ -25,11 +25,13 @@ productRoutes.route("/productsOffsetTShirt/:offset").get(async function (req, re
 
 });
 
-productRoutes.route("/productsFilterWomens").get(async (req, res) => {
+productRoutes.route("/productsFilterWomens/:offset").get(async (req, res) => {
+    const { offset } = req.params;
+
     const db_connect = dbo.getDb("products");
     const collection = db_connect.collection("products");
 
-    collection.find({ $text: { $search: "Women's" } }).toArray((err, result) => {
+    collection.find({ $text: { $search: "Women's" } }).skip(parseInt(offset) + 10).limit(parseInt(offset) + 3).toArray((err, result) => {
         if (err) throw err;
 
         res.json(result);
