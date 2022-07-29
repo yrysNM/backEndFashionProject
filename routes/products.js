@@ -15,7 +15,7 @@ productRoutes.route("/productsOffsetTShirt/:offset").get(async function (req, re
             { $match: { type: "T-SHIRT" } },
             { $group: { _id: "$id" } },
             { $skip: parseInt(offset) + 10 },
-            { $limit: parseInt(offset) }
+            { $limit: 3 }
         ]).toArray();
 
     data.then((result) => {
@@ -31,7 +31,7 @@ productRoutes.route("/productsFilterWomens/:offset").get(async (req, res) => {
     const db_connect = dbo.getDb("products");
     const collection = db_connect.collection("products");
 
-    collection.find({ $text: { $search: "Women's" } }).skip(parseInt(offset) + 10).limit(parseInt(offset) + 3).toArray((err, result) => {
+    collection.find({ $text: { $search: "Women's" } }).skip(parseInt(offset) + 10).limit(3).toArray((err, result) => {
         if (err) throw err;
 
         res.json(result);
@@ -142,7 +142,7 @@ productRoutes.route("/productsOffsetEmbro/:offset").get(async function (req, res
             { $match: { type: "EMBROIDERY" } },
             { $group: { _id: "$id" } },
             { $skip: parseInt(offset) + 10 },
-            { $limit: parseInt(offset) }
+            { $limit: 3 }
         ]).toArray();
 
     data.then((result) => {
@@ -164,7 +164,7 @@ productRoutes.route("/productsOffsetMUG/:offset").get(async function (req, res) 
             { $match: { type: "MUG" } },
             { $group: { _id: "$id" } },
             { $skip: parseInt(offset) + 10 },
-            { $limit: parseInt(offset) }
+            { $limit: 3 }
         ]).toArray();
 
     data.then((result) => {
@@ -186,7 +186,7 @@ productRoutes.route("/productsOffsetShoes/:offset").get(async function (req, res
             { $match: { type: "SHOES" } },
             { $group: { _id: "$id" } },
             { $skip: parseInt(offset) + 10 },
-            { $limit: parseInt(offset) }
+            { $limit: 4 }
         ]).toArray();
 
     data.then((result) => {
