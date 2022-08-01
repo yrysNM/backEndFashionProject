@@ -42,10 +42,11 @@ class authController {
 
     async login(req, res) {
         try {
-            const { email, password } = req.body;
-            const user = await User.findOne({ email });
+            const { username, password } = req.body;
+            const user = await User.findOne({ username: username });
+
             if (!user) {
-                return res.status(400).json({ message: `User ${email} not finded` });
+                return res.status(400).json({ message: `User ${username} not finded` });
             }
             const validPassword = bcrypt.compareSync(password, user.password);
             if (!validPassword) {

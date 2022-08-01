@@ -28,8 +28,8 @@ elFashionRoutes.route("/auth/registration").post([
   check("username", "username shoould not empty").notEmpty(),
   check("password", "Password length mini 4 max 10").isLength({ min: 4, max: 10 }),
   check("email").isEmail().normalizeEmail(),
-  check("addresses.*.postalCode").isPostalCode(),
-  check("phone", "phone shoydn;t empty").notEmpty(),
+  check("address").notEmpty(),
+  check("phone", "phone shoydn't empty").notEmpty(),
 
 ], controller.registration);
 elFashionRoutes.route("/auth/login").post(controller.login);
