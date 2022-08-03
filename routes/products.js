@@ -264,10 +264,7 @@ productRoutes.route("/allProducts").get((req, res) => {
         .toArray((err, result) => {
             if (err) throw err;
 
-            db_connect.insert({
-                "title": result.title,
-                "tags": ["mongodb", "titleText"]
-            });
+            res.json(result);
         });
 
 });
